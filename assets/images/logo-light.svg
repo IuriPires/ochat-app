@@ -1,0 +1,14 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Speech bubble icon with "O" - Dark version for light backgrounds -->
+  <g transform="translate(100, 373)">
+    <!-- Rounded rectangle bubble -->
+    <rect x="0" y="0" width="250" height="250" rx="60" fill="black"/>
+    <!-- Tail of speech bubble (centered at bottom) -->
+    <path d="M 105 250 L 125 280 L 145 250 Z" fill="black"/>
+    <!-- Letter O inside -->
+    <text x="125" y="190" font-family="Arial, sans-serif" font-size="180" font-weight="bold" text-anchor="middle" fill="white">O</text>
+  </g>
+  
+  <!-- "Ochat" text -->
+  <text x="410" y="560" font-family="Arial, sans-serif" font-size="200" font-weight="600" fill="black">Ochat</text>
+</svg>
