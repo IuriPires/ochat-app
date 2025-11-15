@@ -9,54 +9,28 @@ export default function SignUpScreen() {
 
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
-  const [pendingVerification, setPendingVerification] = React.useState(false);
-  const [code, setCode] = React.useState("");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
 
   // Handle submission of sign-up form
   const onSignUpPress = async () => {
     if (!isLoaded) return;
 
-    console.log(emailAddress, password);
-
     // Start sign-up process using email and password provided
     try {
-      await signUp.create({
+      const signUpAttempt = await signUp.create({
+        firstName,
+        lastName,
         emailAddress,
         password,
       });
 
-      // Send user an email with verification code
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      console.log(signUpAttempt, "signUpAttempt");
 
-      // Set 'pendingVerification' to true to display second form
-      // and capture OTP code
-      setPendingVerification(true);
-    } catch (err) {
-      // See https://clerk.com/docs/guides/development/custom-flows/error-handling
-      // for more info on error handling
-      console.error(err);
-    }
-  };
-
-  // Handle submission of verification form
-  const onVerifyPress = async () => {
-    if (!isLoaded) return;
-
-    try {
-      // Use the code the user provided to attempt verification
-      const signUpAttempt = await signUp.attemptEmailAddressVerification({
-        code,
-      });
-
-      // If verification was completed, set the session to active
-      // and redirect the user
-      if (signUpAttempt.status === "complete") {
+      // Set the session as active immediately without email verification
+      if (signUpAttempt.createdSessionId) {
         await setActive({ session: signUpAttempt.createdSessionId });
         router.replace("/");
-      } else {
-        // If the status is not complete, check why. User may need to
-        // complete further steps.
-        console.error(signUpAttempt);
       }
     } catch (err) {
       // See https://clerk.com/docs/guides/development/custom-flows/error-handling
@@ -64,22 +38,6 @@ export default function SignUpScreen() {
       console.error(err);
     }
   };
-
-  if (pendingVerification) {
-    return (
-      <>
-        <Text>Verify your email</Text>
-        <TextInput
-          value={code}
-          placeholder="Enter your verification code"
-          onChangeText={(code) => setCode(code)}
-        />
-        <TouchableOpacity onPress={onVerifyPress}>
-          <Text>Verify</Text>
-        </TouchableOpacity>
-      </>
-    );
-  }
 
   return (
     <View>
@@ -90,6 +48,18 @@ export default function SignUpScreen() {
           value={emailAddress}
           placeholder="Enter email"
           onChangeText={(email) => setEmailAddress(email)}
+        />
+        <TextInput
+          autoCapitalize="none"
+          value={firstName}
+          placeholder="Enter name"
+          onChangeText={(name) => setFirstName(name)}
+        />
+        <TextInput
+          autoCapitalize="none"
+          value={lastName}
+          placeholder="Enter last name"
+          onChangeText={(name) => setLastName(name)}
         />
         <TextInput
           value={password}

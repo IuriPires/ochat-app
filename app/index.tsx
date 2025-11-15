@@ -1,6 +1,7 @@
 import { useAuth } from "@clerk/clerk-expo";
 import { Redirect } from "expo-router";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const { isSignedIn, signOut } = useAuth();
@@ -10,10 +11,13 @@ export default function Index() {
   }
 
   return (
-    <View className="flex-1 items-center justify-center bg-white">
+    <SafeAreaView className="flex-1 items-center justify-center bg-white">
       <Text className="text-xl font-bold text-blue-500">
         Welcome to the app!
       </Text>
-    </View>
+      <TouchableOpacity onPress={() => signOut()}>
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 }
