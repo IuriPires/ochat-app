@@ -5,12 +5,14 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { PortalHost } from "@rn-primitives/portal";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
 import { useColorScheme } from "@/hooks/use-color-scheme";
+import React from "react";
 
 export const unstable_settings = {
   anchor: "(auth)",
@@ -29,9 +31,10 @@ export default function RootLayout() {
             <Stack.Screen name="index" options={{ headerShown: false }} />
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar style="light" backgroundColor="#000" translucent={false} />
         </ThemeProvider>
       </ClerkProvider>
+      <PortalHost />
     </SafeAreaProvider>
   );
 }

@@ -6,6 +6,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { Redirect, Stack } from "expo-router";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 export default function AuthRoutesLayout() {
   const { isSignedIn } = useAuth();
   const colorScheme = useColorScheme();
@@ -15,8 +16,10 @@ export default function AuthRoutesLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }} />
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <Stack screenOptions={{ headerShown: false }} />
+      </ThemeProvider>
+    </SafeAreaProvider>
   );
 }

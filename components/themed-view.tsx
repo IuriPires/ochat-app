@@ -1,17 +1,19 @@
 import { type ViewProps } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, type Edge } from "react-native-safe-area-context";
 
 import { useThemeColor } from "@/hooks/use-theme-color";
 
 export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
+  edges?: Edge[];
 };
 
 export function ThemedView({
   style,
   lightColor,
   darkColor,
+  edges = ["top", "bottom", "left", "right"],
   ...otherProps
 }: ThemedViewProps) {
   const backgroundColor = useThemeColor(
@@ -19,5 +21,11 @@ export function ThemedView({
     "background"
   );
 
-  return <SafeAreaView style={[{ backgroundColor }, style]} {...otherProps} />;
+  return (
+    <SafeAreaView
+      style={[style, { backgroundColor }]}
+      edges={edges}
+      {...otherProps}
+    />
+  );
 }
